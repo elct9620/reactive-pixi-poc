@@ -4,7 +4,7 @@ import { Subject, fromEvent } from "rxjs"
 import { Stage, Container, Text } from '@pixi/react';
 import { useEffect } from "react";
 import container from './container'
-import * as Controller from './controller'
+import * as UseCase from './usecase'
 import { Event, EventBusSymbol } from './event'
 
 const keydown$ = fromEvent(document, 'keydown')
@@ -13,8 +13,8 @@ const [useKeyDown] = bind(keydown$, null)
 const domainEvent$ = container.get<Subject<Event>>(EventBusSymbol)
 const [useDomainEvent] = bind(domainEvent$, null)
 
-const attackCommand = container.get<Controller.Command<Controller.AttackCommandInput>>(Controller.AttackCommandSymbol)
-const playerQuery = container.get<Controller.Query<Controller.PlayerQueryInput, Controller.PlayerQueryOutput>>(Controller.PlayerQuerySymbol)
+const attackCommand = container.get<UseCase.Command<UseCase.AttackCommandInput>>(UseCase.AttackCommandSymbol)
+const playerQuery = container.get<UseCase.Query<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>>(UseCase.PlayerQuerySymbol)
 
 function App() {
   const [health, setHealth] = useState(0)
