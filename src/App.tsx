@@ -2,11 +2,14 @@ import { useState } from "react"
 import { Stage, Container, Text } from '@pixi/react';
 import { useEffect } from "react";
 import * as UseCase from '@/usecase'
+import { PlayerUpdated } from '@/event'
 import {
   useKeyDown,
-  useDomainEvent,
+  bindDomainEvent,
   useInject,
 } from '@/hooks'
+
+const [usePlayerUpdated] = bindDomainEvent(PlayerUpdated.name)
 
 function App() {
   const attackCommand = useInject<UseCase.Command<UseCase.AttackCommandInput, boolean>>(UseCase.AttackCommandSymbol)
@@ -14,11 +17,11 @@ function App() {
 
   const [health, setHealth] = useState(0)
 
-  const domainEvent = useDomainEvent()
+  const playerUpdatedEvent = usePlayerUpdated()
   useEffect(() => {
     const player = playerQuery.execute({ id: '1' })
     setHealth(player.health)
-  }, [domainEvent, playerQuery])
+  }, [playerUpdatedEvent, playerQuery])
 
   const keydown = useKeyDown()
   useEffect(() => {

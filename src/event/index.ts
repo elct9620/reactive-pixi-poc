@@ -1,5 +1,14 @@
 export const EventBusSymbol = Symbol('EventBus')
-export interface Event {
-  id: string;
+export class Event {
+  public readonly id: string
+
+  constructor(id: string) {
+    this.id = id
+  }
+
+  get type() {
+    return this.constructor.name
+  }
 }
-export interface PlayerUpdated extends Event {}
+
+export class PlayerUpdated extends Event {}

@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import { Player } from '../entity'
 import { Subject } from "rxjs";
-import { Event, EventBusSymbol } from '../event'
+import { Event, EventBusSymbol, PlayerUpdated } from '../event'
 
 @injectable()
 export class Players {
@@ -21,6 +21,6 @@ export class Players {
 
   save(player: Player) {
     this.player = player
-    this.events.next({ id: 'player-updated' })
+    this.events.next(new PlayerUpdated(player.id))
   }
 }
