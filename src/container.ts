@@ -1,3 +1,4 @@
+import { createContext } from "react";
 import { Container } from "inversify";
 import * as UseCase from "./usecase";
 import * as Repository from "./repository";
@@ -12,3 +13,4 @@ container.bind<UseCase.Command<UseCase.AttackCommandInput, boolean>>(UseCase.Att
 container.bind<UseCase.Query<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>>(UseCase.PlayerQuerySymbol).to(UseCase.PlayerQuery);
 
 export default container;
+export const InjectContext = createContext({ container })

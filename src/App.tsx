@@ -1,23 +1,24 @@
 import { useState } from "react"
 import { Stage, Container, Text } from '@pixi/react';
 import { useEffect } from "react";
+import * as UseCase from '@/usecase'
 import {
   useKeyDown,
   useDomainEvent,
-  useAttackCommand,
-  usePlayerQuery
+  useInject,
 } from '@/hooks'
 
 function App() {
-  const attackCommand = useAttackCommand()
-  const playerQuery = usePlayerQuery()
+  const attackCommand = useInject<UseCase.Command<UseCase.AttackCommandInput, boolean>>(UseCase.AttackCommandSymbol)
+  const playerQuery = useInject<UseCase.Query<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>>(UseCase.PlayerQuerySymbol)
 
   const [health, setHealth] = useState(0)
 
+  const domainEvent = useDomainEvent()
   useEffect(() => {
     const player = playerQuery.execute({ id: '1' })
     setHealth(player.health)
-  }, [playerQuery])
+  }, [domainEvent, playerQuery])
 
   const keydown = useKeyDown()
   useEffect(() => {
@@ -25,14 +26,6 @@ function App() {
       attackCommand.execute({ amount: 10 })
     }
   }, [keydown, attackCommand])
-
-  const domainEvent = useDomainEvent()
-  useEffect(() => {
-    if (domainEvent) {
-      const player = playerQuery.execute({ id: '1' })
-      setHealth(player.health)
-    }
-  }, [domainEvent, playerQuery])
 
   return (
     <Stage options={{backgroundColor: 0xffffff}}>
