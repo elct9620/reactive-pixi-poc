@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import { Command } from './command';
+import { Command } from './usecase';
 import { type Repository, PlayerRepositorySymbol } from './repository'
 import { Player } from '../entity'
 
@@ -10,7 +10,7 @@ export type AttackCommandInput = {
 }
 
 @injectable()
-export class AttackCommand implements Command<AttackCommandInput> {
+export class AttackCommand implements Command<AttackCommandInput, boolean> {
   private readonly _players: Repository<Player>
 
   constructor(
@@ -19,9 +19,10 @@ export class AttackCommand implements Command<AttackCommandInput> {
     this._players = players
   }
 
-  execute({ amount }: AttackCommandInput): void {
+  execute({ amount }: AttackCommandInput): boolean {
     const player = this._players.find('1')
     player.damage(amount)
     this._players.save(player)
+    return true
   }
 }

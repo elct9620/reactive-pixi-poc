@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import { Query } from './command';
+import { Query } from './usecase';
 import { type Repository, PlayerRepositorySymbol } from './repository'
 import { Player } from '../entity'
 
