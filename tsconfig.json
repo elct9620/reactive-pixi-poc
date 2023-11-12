@@ -23,7 +23,16 @@
     /* Dependency Injection */
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+
+    /* Paths */
+    "paths": {
+      "@/*": ["src/*"],
+      "@event/*": ["src/event/*"],
+      "@usecase/*": ["src/usecase/*"],
+      "@entity/*": ["src/entity/*"],
+      "@repository/*": ["src/repository/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
