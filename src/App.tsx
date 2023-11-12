@@ -5,11 +5,9 @@ import * as UseCase from '@/usecase'
 import { PlayerUpdated } from '@/event'
 import {
   useKeyDown,
-  bindDomainEvent,
+  useDomainEvent,
   useInject,
 } from '@/hooks'
-
-const [usePlayerUpdated] = bindDomainEvent(PlayerUpdated.name)
 
 function App() {
   const attackCommand = useInject<UseCase.Command<UseCase.AttackCommandInput, boolean>>(UseCase.AttackCommandSymbol)
@@ -17,7 +15,7 @@ function App() {
 
   const [health, setHealth] = useState(0)
 
-  const playerUpdatedEvent = usePlayerUpdated()
+  const playerUpdatedEvent = useDomainEvent(PlayerUpdated)
   useEffect(() => {
     const player = playerQuery.execute({ id: '1' })
     setHealth(player.health)
