@@ -1,20 +1,29 @@
+export class Position {
+  public readonly x: number;
+  public readonly y: number;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
 export class Player {
   public readonly id: string;
   private _speed: number = 16;
-  private _x: number = 336;
-  private _y: number = 252;
+  private _position: Position = new Position(344, 260);
   private _health: number = 100;
 
   constructor(id: string) {
     this.id = id;
   }
 
-  public get x() {
-    return this._x;
+  public get position() {
+    return new Position(this._position.x, this._position.y);
   }
 
-  public get y() {
-    return this._y;
+  public get speed() {
+    return this._speed;
   }
 
   public get health() {
@@ -25,20 +34,7 @@ export class Player {
     this._health -= amount;
   }
 
-  public move(direction: 'up' | 'down' | 'left' | 'right') {
-    switch (direction) {
-      case 'up':
-        this._y -= this._speed;
-        break;
-      case 'down':
-        this._y += this._speed;
-        break;
-      case 'left':
-        this._x -= this._speed;
-        break;
-      case 'right':
-        this._x += this._speed;
-        break;
-    }
+  public moveTo(position: Position) {
+    this._position = position;
   }
 }

@@ -26,10 +26,9 @@ export class PlayerQuery implements Query<PlayerQueryInput, PlayerQueryOutput> {
 
   execute({ id }: PlayerQueryInput): PlayerQueryOutput {
     const player = this._players.find(id)
-    return {
-      health: player.health,
-      x: player.x,
-      y: player.y,
-    }
+    const { health, position } = player
+    const { x, y } = position
+
+    return { health, x, y }
   }
 }

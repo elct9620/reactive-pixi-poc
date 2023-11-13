@@ -32,6 +32,7 @@ export default function Player() {
   useEffect(() => {
     const direction = keyCodeToDirection(keydown as KeyboardEvent)
     if (direction) {
+      keydown?.preventDefault()
       moveCommand.execute({ direction })
     }
   }, [keydown, moveCommand])
