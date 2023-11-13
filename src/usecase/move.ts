@@ -9,6 +9,18 @@ export type MoveCommandInput = {
   direction: 'up' | 'down' | 'left' | 'right'
 }
 
+const MoveBoundaries = {
+  x: { min: 344, max: 456 },
+  y: { min: 260, max: 340 }
+}
+
+const isWithinBoundaries = (position: Position) => {
+  const { x, y } = position
+  const { x: { min, max }, y: { min: minY, max: maxY } } = MoveBoundaries
+
+  return x >= min && x <= max && y >= minY && y <= maxY
+}
+
 @injectable()
 export class MoveCommand implements Command<MoveCommandInput, void> {
   private readonly _players: Repository<Player>
@@ -36,6 +48,10 @@ export class MoveCommand implements Command<MoveCommandInput, void> {
       case 'right':
         player.moveTo(new Position(position.x + speed, position.y))
         break
+    }
+
+    if (!isWithinBoundaries(player.position)) {
+      player.moveTo(position)
     }
 
     this._players.save(player)
