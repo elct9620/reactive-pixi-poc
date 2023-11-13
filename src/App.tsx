@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { Stage, Container, Text } from '@pixi/react';
 import { useEffect } from "react";
 import * as UseCase from '@/usecase'
@@ -22,15 +22,18 @@ function App() {
   }, [playerUpdatedEvent, playerQuery])
 
   const keydown = useKeyDown()
+  const attack = useCallback(() => {
+    attackCommand.execute({ amount: 10 })
+  }, [attackCommand])
   useEffect(() => {
     if (keydown) {
-      attackCommand.execute({ amount: 10 })
+      attack()
     }
-  }, [keydown, attackCommand])
+  }, [keydown, attack])
 
   return (
     <Stage options={{backgroundColor: 0xffffff}}>
-      <Container x={400} y={300}>
+      <Container x={400} y={300} eventMode="static" pointerdown={() => attack()}>
         <Text text={`Health is ${health}`} />
       </Container>
     </Stage>
