@@ -10,6 +10,8 @@ export type PlayerQueryInput = {
 }
 export type PlayerQueryOutput = {
   health: number;
+  x: number;
+  y: number;
 }
 
 @injectable()
@@ -25,7 +27,9 @@ export class PlayerQuery implements Query<PlayerQueryInput, PlayerQueryOutput> {
   execute({ id }: PlayerQueryInput): PlayerQueryOutput {
     const player = this._players.find(id)
     return {
-      health: player.health
+      health: player.health,
+      x: player.x,
+      y: player.y,
     }
   }
 }
