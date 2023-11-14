@@ -37,16 +37,16 @@ export class MoveCommand implements Command<MoveCommandInput, void> {
 
     switch (direction) {
       case 'up':
-        player.position = new Position(position.x, position.y - speed)
+        player.position = position.add({ x: 0, y: -speed })
         break
       case 'down':
-        player.position = new Position(position.x, position.y + speed)
+        player.position = position.add({ x: 0, y: speed })
         break
       case 'left':
-        player.position = new Position(position.x - speed, position.y)
+        player.position = position.add({ x: -speed, y: 0 })
         break
       case 'right':
-        player.position = new Position(position.x + speed, position.y)
+        player.position = position.add({ x: speed, y: 0 })
         break
     }
 

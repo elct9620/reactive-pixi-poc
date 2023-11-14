@@ -1,3 +1,5 @@
+import { Vector2 } from "./vector";
+
 export class Position {
   public readonly x: number;
   public readonly y: number;
@@ -7,7 +9,7 @@ export class Position {
     this.y = y;
   }
 
-  add(position: Position): Position {
-    return new Position(this.x + position.x, this.y + position.y);
+  add(vec: Vector2): Position {
+    return new Position(this.x + vec.x, this.y + vec.y);
   }
 }
