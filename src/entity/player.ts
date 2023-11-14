@@ -34,7 +34,7 @@ export class Player {
     this._health -= amount;
   }
 
-  public moveTo(position: Position) {
+  public set position(position: Position) {
     this._position = position;
   }
 }

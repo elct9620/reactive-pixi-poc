@@ -37,21 +37,21 @@ export class MoveCommand implements Command<MoveCommandInput, void> {
 
     switch (direction) {
       case 'up':
-        player.moveTo(new Position(position.x, position.y - speed))
+        player.position = new Position(position.x, position.y - speed)
         break
       case 'down':
-        player.moveTo(new Position(position.x, position.y + speed))
+        player.position = new Position(position.x, position.y + speed)
         break
       case 'left':
-        player.moveTo(new Position(position.x - speed, position.y))
+        player.position = new Position(position.x - speed, position.y)
         break
       case 'right':
-        player.moveTo(new Position(position.x + speed, position.y))
+        player.position = new Position(position.x + speed, position.y)
         break
     }
 
     if (!isWithinBoundaries(player.position)) {
-      player.moveTo(position)
+      player.position = position
     }
 
     this._players.save(player)
