@@ -4,7 +4,6 @@ import { Query } from './usecase';
 import { type Repository, PlayerRepositorySymbol } from './repository'
 import { Player } from '../entity'
 
-export const PlayerQuerySymbol = Symbol('PlayerQuery');
 export type PlayerQueryInput = {
   id: string;
 }

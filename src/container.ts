@@ -6,12 +6,11 @@ import * as Entity from "./entity";
 import { Event, EventBusSymbol } from "./event";
 import { Subject } from "rxjs";
 
-const container = new Container();
+const container = new Container({
+  autoBindInjectable: true,
+});
 container.bind<Subject<Event>>(EventBusSymbol).toConstantValue(new Subject<Event>());
 container.bind<UseCase.Repository<Entity.Player>>(UseCase.PlayerRepositorySymbol).to(Repository.Players).inSingletonScope()
-container.bind<UseCase.Command<UseCase.AttackCommandInput, boolean>>(UseCase.AttackCommandSymbol).to(UseCase.AttackCommand);
-container.bind<UseCase.Command<UseCase.MoveCommandInput, void>>(UseCase.MoveCommandSymbol).to(UseCase.MoveCommand);
-container.bind<UseCase.Query<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>>(UseCase.PlayerQuerySymbol).to(UseCase.PlayerQuery);
 
 export default container;
 export const InjectContext = createContext({ container })

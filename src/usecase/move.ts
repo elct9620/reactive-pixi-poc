@@ -4,7 +4,6 @@ import { Command } from './usecase';
 import { type Repository, PlayerRepositorySymbol } from './repository'
 import { Player, Position } from '../entity'
 
-export const MoveCommandSymbol = Symbol('MoveCommand');
 export type MoveCommandInput = {
   direction: 'up' | 'down' | 'left' | 'right'
 }
