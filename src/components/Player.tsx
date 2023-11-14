@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Assets, Texture } from 'pixi.js'
 import { AnimatedSprite } from '@pixi/react';
 import * as UseCase from '@/usecase'
-import { useKeyDown, useInject, useDomainEvent } from '@/hooks'
+import { useKeyDown, useCommand, useQuery, useDomainEvent } from '@/hooks'
 import { PlayerUpdated } from '@/event'
 
 const skeletonAsset = [1, 2, 3, 4].map(i => new URL(`/src/assets/skeleton/skeleton_v2_${i}.png`, import.meta.url).href)
@@ -27,27 +27,27 @@ const keyCodeToDirection = (event: KeyboardEvent | null) => {
 }
 
 export default function Player() {
-  const moveCommand = useInject<UseCase.Command<UseCase.MoveCommandInput, void>>(UseCase.MoveCommandSymbol)
+  const move = useCommand<UseCase.MoveCommandInput, void>(UseCase.MoveCommandSymbol)
   const keydown = useKeyDown()
   useEffect(() => {
     const direction = keyCodeToDirection(keydown as KeyboardEvent)
     if (direction) {
       keydown?.preventDefault()
-      moveCommand.execute({ direction })
+      move({ direction })
     }
-  }, [keydown, moveCommand])
+  }, [keydown, move])
 
   const playerUpdatedEvent = useDomainEvent(PlayerUpdated)
-  const playerQuery = useInject<UseCase.Query<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>>(UseCase.PlayerQuerySymbol)
+  const getPlayer = useQuery<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>(UseCase.PlayerQuerySymbol)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   useEffect(() => {
     const updatePlayer = async () => {
-      const player = await playerQuery.execute({ id: '1' })
+      const player = await getPlayer({ id: '1' })
       setPosition({ x: player.x, y: player.y })
     }
 
     updatePlayer()
-  }, [playerUpdatedEvent, playerQuery])
+  }, [playerUpdatedEvent, getPlayer])
 
   const [frames, setFrames] = useState<Texture[]>([])
   useEffect(() => {
