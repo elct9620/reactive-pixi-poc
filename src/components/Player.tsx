@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Texture } from 'pixi.js'
 import { AnimatedSprite } from '@pixi/react';
-import * as UseCase from '@/usecase'
+import {
+  MoveCommandInput,
+  MoveCommandSymbol,
+  PlayerQueryInput,
+  PlayerQueryOutput,
+  PlayerQuerySymbol,
+}  from '@/usecase'
 import { useKeyDown, useCommand, useQuery, useDomainEvent, useAssets } from '@/hooks'
 import { PlayerUpdated } from '@/event'
 
@@ -27,7 +33,7 @@ const keyCodeToDirection = (event: KeyboardEvent | null) => {
 }
 
 export default function Player() {
-  const move = useCommand<UseCase.MoveCommandInput, void>(UseCase.MoveCommandSymbol)
+  const move = useCommand<MoveCommandInput>(MoveCommandSymbol)
   const keydown = useKeyDown()
   useEffect(() => {
     const direction = keyCodeToDirection(keydown as KeyboardEvent)
@@ -38,7 +44,7 @@ export default function Player() {
   }, [keydown, move])
 
   const playerUpdatedEvent = useDomainEvent(PlayerUpdated)
-  const getPlayer = useQuery<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>(UseCase.PlayerQuerySymbol)
+  const getPlayer = useQuery<PlayerQueryInput, PlayerQueryOutput>(PlayerQuerySymbol)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   useEffect(() => {
     const updatePlayer = async () => {

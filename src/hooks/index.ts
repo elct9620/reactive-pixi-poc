@@ -27,7 +27,7 @@ const useInject = <T>(identifier: interfaces.ServiceIdentifier<T>)  => {
   return useMemo(() => container.get<T>(identifier), [container, identifier])
 }
 
-const useCommand = <I, O>(identifier: interfaces.ServiceIdentifier<Command<I, O>>) => {
+const useCommand = <I, O = void>(identifier: interfaces.ServiceIdentifier<Command<I, O>>) => {
   const command = useInject(identifier)
   return useCallback((input: I) => command.execute(input), [command])
 }

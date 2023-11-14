@@ -1,4 +1,4 @@
-export interface Query<I, O> {
+export interface Query<I, O = void> {
   execute(input: I): Promise<O>;
 }
 
