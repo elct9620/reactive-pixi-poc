@@ -1,7 +1,7 @@
 export interface Query<I, O> {
-  execute(input: I): O;
+  execute(input: I): Promise<O>;
 }
 
 export interface Command<I, O> {
-  execute(input: I): O;
+  execute(input: I): Promise<O>;
 }

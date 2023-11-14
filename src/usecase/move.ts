@@ -31,7 +31,7 @@ export class MoveCommand implements Command<MoveCommandInput, void> {
     this._players = players
   }
 
-  execute({ direction }: MoveCommandInput): void {
+  async execute({ direction }: MoveCommandInput): Promise<void> {
     const player = this._players.find('1')
     const { position, speed } = player
 

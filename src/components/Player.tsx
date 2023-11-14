@@ -5,7 +5,7 @@ import * as UseCase from '@/usecase'
 import { useKeyDown, useInject, useDomainEvent } from '@/hooks'
 import { PlayerUpdated } from '@/event'
 
-const skeletonAsset = [1, 2, 3, 4].map(i => new URL(`../assets/skeleton/skeleton_v2_${i}.png`, import.meta.url).href)
+const skeletonAsset = [1, 2, 3, 4].map(i => new URL(`/src/assets/skeleton/skeleton_v2_${i}.png`, import.meta.url).href)
 
 const keyCodeToDirection = (event: KeyboardEvent | null) => {
   if(!event) {
@@ -41,8 +41,12 @@ export default function Player() {
   const playerQuery = useInject<UseCase.Query<UseCase.PlayerQueryInput, UseCase.PlayerQueryOutput>>(UseCase.PlayerQuerySymbol)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   useEffect(() => {
-    const player = playerQuery.execute({ id: '1' })
-    setPosition({ x: player.x, y: player.y })
+    const updatePlayer = async () => {
+      const player = await playerQuery.execute({ id: '1' })
+      setPosition({ x: player.x, y: player.y })
+    }
+
+    updatePlayer()
   }, [playerUpdatedEvent, playerQuery])
 
   const [frames, setFrames] = useState<Texture[]>([])

@@ -24,7 +24,7 @@ export class PlayerQuery implements Query<PlayerQueryInput, PlayerQueryOutput> {
     this._players = players
   }
 
-  execute({ id }: PlayerQueryInput): PlayerQueryOutput {
+  async execute({ id }: PlayerQueryInput): Promise<PlayerQueryOutput> {
     const player = this._players.find(id)
     const { health, position } = player
     const { x, y } = position

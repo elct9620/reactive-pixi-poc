@@ -19,7 +19,7 @@ export class AttackCommand implements Command<AttackCommandInput, boolean> {
     this._players = players
   }
 
-  execute({ amount }: AttackCommandInput): boolean {
+  async execute({ amount }: AttackCommandInput): Promise<boolean> {
     const player = this._players.find('1')
     player.damage(amount)
     this._players.save(player)
