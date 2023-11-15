@@ -5,7 +5,7 @@ import {
   MoveCommand,
   PlayerQuery,
 }  from '@/usecase'
-import { useKeyDown, useCommand, useQuery, useDomainEvent, useAssets, useAssetIsLoading } from '@/hooks'
+import { useKeyDown, useCommand, useQuery, useDomainEvent, useAssets } from '@/hooks'
 import { PlayerUpdated } from '@/event'
 
 const skeletonAsset = [1, 2, 3, 4].map(i => new URL(`/src/assets/skeleton/skeleton_v2_${i}.png`, import.meta.url).href)
