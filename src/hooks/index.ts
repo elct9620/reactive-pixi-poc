@@ -1,6 +1,6 @@
 import { useMemo, useCallback, useContext, useState, useEffect } from "react"
 import { bind, state, useStateObservable } from "@react-rxjs/core"
-import { Subject, fromEvent, filter } from "rxjs"
+import { Subject, fromEvent, filter, mergeAll, scan, withLatestFrom } from "rxjs"
 import { interfaces } from "inversify"
 import container, { InjectContext } from '@/container'
 import { Command, Query } from '@/usecase'
@@ -37,21 +37,29 @@ const useQuery = <I, O>(identifier: interfaces.ServiceIdentifier<Query<I, O>>) =
   return useCallback((input: I) => query.execute(input), [query])
 }
 
+const assets$ = new Subject<Promise<void>>()
+const assetsProgress$ = assets$.pipe(mergeAll())
+const assetsCount$ = assets$.pipe(scan((acc) => acc + 1, 0))
+const [useAssetIsLoading, isAssetsLoading$] = bind(
+  assetsProgress$.pipe(
+    scan((acc) => acc + 1, 0),
+    withLatestFrom(assetsCount$, (current, total) => current < total),
+  ),
+  false
+)
+
+isAssetsLoading$.subscribe()
+
 const useAssets = <T>(assetsUrls: ArrayOr<string>) => {
   const [assets, setAssets] = useState<Record<string, T>>({})
-  const [progress, setProgress] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    Assets
-      .load(assetsUrls, setProgress)
-      .then((res) => {
-        setAssets(res)
-        setIsLoading(false)
-      })
+    const promise = Assets.load(assetsUrls)
+    assets$.next(promise)
+    promise.then((res) => setAssets(res))
   }, [assetsUrls])
 
-  return [assets, isLoading, progress]
+  return assets
 }
 
 export {
@@ -61,4 +69,5 @@ export {
   useCommand,
   useQuery,
   useAssets,
+  useAssetIsLoading,
 }

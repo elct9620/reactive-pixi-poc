@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Texture } from 'pixi.js'
 import { AnimatedSprite } from '@pixi/react';
 import {
   MoveCommand,
   PlayerQuery,
 }  from '@/usecase'
-import { useKeyDown, useCommand, useQuery, useDomainEvent, useAssets } from '@/hooks'
+import { useKeyDown, useCommand, useQuery, useDomainEvent, useAssets, useAssetIsLoading } from '@/hooks'
 import { PlayerUpdated } from '@/event'
 
 const skeletonAsset = [1, 2, 3, 4].map(i => new URL(`/src/assets/skeleton/skeleton_v2_${i}.png`, import.meta.url).href)
@@ -52,7 +52,8 @@ export default function Player() {
     updatePlayer()
   }, [playerUpdatedEvent, getPlayer])
 
-  const [assets] = useAssets(skeletonAsset)
+  const { current: assetsUrl } = useRef(skeletonAsset)
+  const assets = useAssets(assetsUrl)
   const [frames, setFrames] = useState<Texture[]>([])
   useEffect(() => {
     setFrames(skeletonAsset.map(asset => (assets as Record<string, Texture>)[asset]).filter(asset => asset))
