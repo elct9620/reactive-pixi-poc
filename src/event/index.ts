@@ -1,13 +1,13 @@
-export const EventBusSymbol = Symbol('EventBus')
+export const EventBusSymbol = Symbol("EventBus");
 export class Event {
-  public readonly id: string
+  public readonly id: string;
 
   constructor(id: string) {
-    this.id = id
+    this.id = id;
   }
 
   get type() {
-    return this.constructor.name
+    return this.constructor.name;
   }
 }
 

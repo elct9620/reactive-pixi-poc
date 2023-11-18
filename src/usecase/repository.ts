@@ -3,4 +3,4 @@ export interface Repository<T> {
   find(id: string): T;
 }
 
-export const PlayerRepository = Symbol('PlayerRepository');
+export const PlayerRepository = Symbol("PlayerRepository");
