@@ -27,7 +27,7 @@ export class Players {
       16,
       16,
       {
-        label: `${this.player.constructor.name}#${this.player.id}}`,
+        label: `Player#${this.player.id}}`,
       },
     );
 
