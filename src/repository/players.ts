@@ -26,6 +26,9 @@ export class Players {
       this.player.position.y - 8,
       16,
       16,
+      {
+        label: `${this.player.constructor.name}#${this.player.id}}`,
+      },
     );
 
     Composite.add(this.physEngine.world, this.playerBody);

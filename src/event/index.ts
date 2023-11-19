@@ -13,11 +13,19 @@ export class Event {
 
 export class PlayerUpdated extends Event {}
 export class KeyUpdated extends Event {}
-export class CollisionStart extends Event {
-  public readonly pairs: number[][];
 
-  constructor(id: string, pairs: number[][]) {
+type CollisionEntity = {
+  type: string;
+  id: string;
+};
+
+export class CollisionStart extends Event {
+  public readonly concats: CollisionEntity[];
+  public readonly pair: CollisionEntity[];
+
+  constructor(id: string, pair: CollisionEntity[], concats: CollisionEntity[]) {
     super(id);
-    this.pairs = pairs;
+    this.pair = pair;
+    this.concats = concats;
   }
 }

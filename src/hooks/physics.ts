@@ -23,6 +23,20 @@ export const usePhysics = () => {
 const engien = container.get<Engine>(Engine);
 const domainEvent$ = container.get<Subject<Event>>(EventBusSymbol);
 Events.on(engien, "collisionStart", (event) => {
-  const bodyIds = event.pairs.map((pair) => [pair.bodyA.id, pair.bodyB.id]);
-  domainEvent$.next(new CollisionStart(uuidv4(), bodyIds));
+  event.pairs.forEach((pair) => {
+    const [receiverAType, receiverAId] = pair.bodyA.label.split("#");
+    const [receiverBType, receiverBId] = pair.bodyB.label.split("#");
+
+    const eventPair = [
+      { type: receiverAType, id: receiverAId },
+      { type: receiverBType, id: receiverBId },
+    ];
+
+    const concats = pair.activeContacts.map((contact) => {
+      const [type, id] = contact.vertex.body.label.split("#");
+      return { type, id };
+    });
+
+    domainEvent$.next(new CollisionStart(uuidv4(), eventPair, concats));
+  });
 });

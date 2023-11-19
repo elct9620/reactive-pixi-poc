@@ -40,6 +40,7 @@ export class Keys {
       16,
       16,
       {
+        label: `${key.constructor.name}#${key.id}`,
         isStatic: true,
       },
     );
