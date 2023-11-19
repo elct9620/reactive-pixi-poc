@@ -25,7 +25,11 @@ container
   .bind<UseCase.Repository<Entity.Key>>(UseCase.KeyRepository)
   .to(Repository.Keys)
   .inSingletonScope();
-container.bind<Engine>(Engine).toConstantValue(Engine.create());
+container.bind<Engine>(Engine).toConstantValue(
+  Engine.create({
+    gravity: { x: 0, y: 0 },
+  }),
+);
 
 export default container;
 export const InjectContext = createContext({ container });

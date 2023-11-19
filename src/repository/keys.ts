@@ -39,6 +39,9 @@ export class Keys {
       key.position.y - 8,
       16,
       16,
+      {
+        isStatic: true,
+      },
     );
     bodies.push(body);
     Composite.add(this.physEngine.world, body);

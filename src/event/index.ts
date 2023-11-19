@@ -13,3 +13,11 @@ export class Event {
 
 export class PlayerUpdated extends Event {}
 export class KeyUpdated extends Event {}
+export class CollisionStart extends Event {
+  public readonly pairs: number[][];
+
+  constructor(id: string, pairs: number[][]) {
+    super(id);
+    this.pairs = pairs;
+  }
+}

@@ -1,7 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useTick } from "@pixi/react";
-import { Engine } from "matter-js";
+import { Engine, Events } from "matter-js";
 import container from "@/container";
+import { Event, EventBusSymbol, CollisionStart } from "@/event";
+import { v4 as uuidv4 } from "uuid";
+import { Subject } from "rxjs";
 
 export const usePhysics = () => {
   const engine = useRef<Engine | null>(null);
@@ -16,3 +19,10 @@ export const usePhysics = () => {
     }
   });
 };
+
+const engien = container.get<Engine>(Engine);
+const domainEvent$ = container.get<Subject<Event>>(EventBusSymbol);
+Events.on(engien, "collisionStart", (event) => {
+  const bodyIds = event.pairs.map((pair) => [pair.bodyA.id, pair.bodyB.id]);
+  domainEvent$.next(new CollisionStart(uuidv4(), bodyIds));
+});

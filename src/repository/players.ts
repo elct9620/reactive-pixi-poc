@@ -26,9 +26,6 @@ export class Players {
       this.player.position.y - 8,
       16,
       16,
-      {
-        isStatic: true,
-      },
     );
 
     Composite.add(this.physEngine.world, this.playerBody);
@@ -40,7 +37,7 @@ export class Players {
 
   save(player: Player) {
     this.player = player;
-    Body.setPosition(this.playerBody, player.position);
+    Body.setPosition(this.playerBody, player.position.add({ x: -8, y: -8 }));
     this.events.next(new PlayerUpdated(player.id));
   }
 }
