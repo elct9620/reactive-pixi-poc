@@ -4,3 +4,4 @@ export * from "./attack";
 export * from "./player";
 export * from "./move";
 export * from "./listKeys";
+export * from "./spawnKey";

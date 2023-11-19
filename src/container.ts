@@ -21,6 +21,10 @@ container
   .bind<UseCase.Projection<void, Entity.Key[]>>(UseCase.ListKeyProjection)
   .to(Repository.ListKeys)
   .inSingletonScope();
+container
+  .bind<UseCase.Repository<Entity.Key>>(UseCase.KeyRepository)
+  .to(Repository.Keys)
+  .inSingletonScope();
 container.bind<Engine>(Engine).toConstantValue(Engine.create());
 
 export default container;

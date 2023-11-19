@@ -2,8 +2,8 @@ import { Sprite } from "@pixi/react";
 import Player from "@/components/Player";
 import Key from "@/components/Key";
 import mapAsset from "@/assets/map.png";
-import { useAssetIsLoading, useDomainEvent, usePhysics, useQuery } from "./hooks";
-import { ListKeyQuery } from '@/usecase'
+import { useAssetIsLoading, useCommand, useDomainEvent, usePhysics, useQuery } from "./hooks";
+import { ListKeyQuery, SpawnKeyCommand } from '@/usecase'
 import { useEffect, useState } from "react";
 import { KeyUpdated } from "@/event";
 
@@ -23,6 +23,11 @@ function App() {
   useEffect(() => {
     listKeys(null).then(({ keys }) => setKeys(keys))
   }, [keyUpdated, listKeys])
+
+  const spawnKey = useCommand(SpawnKeyCommand)
+  useEffect(() => {
+    spawnKey(null)
+  }, [spawnKey])
 
   return (
     <>

@@ -33,6 +33,10 @@ export class MoveCommand implements Command<MoveCommandInput, void> {
 
   async execute({ direction }: MoveCommandInput): Promise<void> {
     const player = this._players.find("1");
+    if (!player) {
+      return;
+    }
+
     const { position, speed } = player;
 
     switch (direction) {
