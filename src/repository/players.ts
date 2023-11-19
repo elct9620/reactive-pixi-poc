@@ -43,4 +43,6 @@ export class Players {
     Body.setPosition(this.playerBody, player.position.add({ x: -8, y: -8 }));
     this.events.next(new PlayerUpdated(player.id));
   }
+
+  delete() {}
 }

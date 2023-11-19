@@ -1,6 +1,7 @@
 export interface Repository<T> {
-  save(entity: T): void;
   find(id: string): T | undefined;
+  save(entity: T): void;
+  delete(id: string): void;
 }
 
 export interface Projection<I, T> {

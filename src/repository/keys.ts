@@ -49,4 +49,13 @@ export class Keys {
 
     this.events.next(new KeyUpdated(uuidv4()));
   }
+
+  delete(id: string) {
+    const index = keys.findIndex((key) => key.id === id);
+    if (index !== -1) {
+      keys.splice(index, 1);
+      Composite.remove(this.physEngine.world, bodies[index]);
+      bodies.splice(index, 1);
+    }
+  }
 }

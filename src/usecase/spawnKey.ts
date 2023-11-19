@@ -1,7 +1,12 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
 import { Command } from "./usecase";
-import { type Repository, KeyRepository } from "./repository";
+import {
+  type Repository,
+  KeyRepository,
+  type Projection,
+  ListKeyProjection,
+} from "./repository";
 import { Key, Position } from "@/entity";
 import { v4 as uuidv4 } from "uuid";
 
@@ -14,12 +19,22 @@ const boxSize = 16;
 @injectable()
 export class SpawnKeyCommand implements Command<void, void> {
   private keys: Repository<Key>;
+  private listKeys: Projection<void, Key[]>;
 
-  constructor(@inject(KeyRepository) keys: Repository<Key>) {
+  constructor(
+    @inject(KeyRepository) keys: Repository<Key>,
+    @inject(ListKeyProjection) listKeys: Projection<void, Key[]>,
+  ) {
     this.keys = keys;
+    this.listKeys = listKeys;
   }
 
   async execute(): Promise<void> {
+    const keys = this.listKeys.execute();
+    keys.forEach((key) => {
+      this.keys.delete(key.id);
+    });
+
     const key = new Key(uuidv4());
 
     const x = xStart + boxSize * Math.floor(Math.random() * xStep);
