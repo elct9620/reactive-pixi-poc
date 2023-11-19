@@ -5,6 +5,7 @@ import * as Repository from "./repository";
 import * as Entity from "./entity";
 import { Event, EventBusSymbol } from "./event";
 import { Subject } from "rxjs";
+import { Engine } from "matter-js";
 
 const container = new Container({
   autoBindInjectable: true,
@@ -16,6 +17,7 @@ container
   .bind<UseCase.Repository<Entity.Player>>(UseCase.PlayerRepository)
   .to(Repository.Players)
   .inSingletonScope();
+container.bind<Engine>(Engine).toConstantValue(Engine.create());
 
 export default container;
 export const InjectContext = createContext({ container });
