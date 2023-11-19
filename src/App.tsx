@@ -5,7 +5,7 @@ import mapAsset from "@/assets/map.png";
 import { useAssetIsLoading, useCommand, useDomainEvent, usePhysics, useQuery } from "./hooks";
 import { ListKeyQuery, SpawnKeyCommand } from '@/usecase'
 import { useEffect, useState } from "react";
-import { KeyUpdated } from "@/event";
+import { CollisionStart, KeyUpdated } from "@/event";
 
 type Key = {
   x: number
@@ -28,6 +28,23 @@ function App() {
   useEffect(() => {
     spawnKey(null)
   }, [spawnKey])
+
+  const collisionStarted = useDomainEvent(CollisionStart) as CollisionStart
+  useEffect(() => {
+    if(!collisionStarted) {
+      return
+    }
+
+    const [entityA, entityB] = collisionStarted.pair
+    if(entityA.type === 'Player' || entityB.type === 'Player') {
+      collisionStarted.concats.forEach((entity) => {
+        if(entity.type === 'Key') {
+          spawnKey(null)
+          return
+        }
+      })
+    }
+  }, [collisionStarted, spawnKey])
 
   return (
     <>
