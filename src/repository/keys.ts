@@ -34,7 +34,12 @@ export class Keys {
 
   save(key: Key) {
     keys.push(key);
-    const body = Bodies.rectangle(key.position.x, key.position.y, 16, 16);
+    const body = Bodies.rectangle(
+      key.position.x - 8,
+      key.position.y - 8,
+      16,
+      16,
+    );
     bodies.push(body);
     Composite.add(this.physEngine.world, body);
 

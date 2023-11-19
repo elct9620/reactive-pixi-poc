@@ -22,8 +22,8 @@ export class Players {
      */
     this.player = new Player("1");
     this.playerBody = Bodies.rectangle(
-      this.player.position.x,
-      this.player.position.y,
+      this.player.position.x - 8,
+      this.player.position.y - 8,
       16,
       16,
       {
