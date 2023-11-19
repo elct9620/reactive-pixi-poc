@@ -12,3 +12,4 @@ export class Event {
 }
 
 export class PlayerUpdated extends Event {}
+export class KeyUpdated extends Event {}

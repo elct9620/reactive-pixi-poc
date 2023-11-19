@@ -17,6 +17,10 @@ container
   .bind<UseCase.Repository<Entity.Player>>(UseCase.PlayerRepository)
   .to(Repository.Players)
   .inSingletonScope();
+container
+  .bind<UseCase.Projection<void, Entity.Key[]>>(UseCase.ListKeyProjection)
+  .to(Repository.ListKeys)
+  .inSingletonScope();
 container.bind<Engine>(Engine).toConstantValue(Engine.create());
 
 export default container;

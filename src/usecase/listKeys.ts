@@ -1,28 +1,34 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import "reflect-metadata";
 import { Query } from "./usecase";
+import { Key } from "@/entity";
+import { ListKeyProjection, type Projection } from ".";
 
-type Key = {
+type KeyPosition = {
   x: number;
   y: number;
 };
 
 export type ListKeyQueryOutput = {
-  keys: Key[];
+  keys: KeyPosition[];
 };
 
 @injectable()
 export class ListKeyQuery implements Query<void, ListKeyQueryOutput> {
-  constructor() {}
+  private readonly getKeys: Projection<void, Key[]>;
+
+  constructor(@inject(ListKeyProjection) getKeys: Projection<void, Key[]>) {
+    this.getKeys = getKeys;
+  }
 
   async execute(): Promise<ListKeyQueryOutput> {
+    const keys = this.getKeys.execute();
+
     return {
-      keys: [
-        {
-          x: 360,
-          y: 276,
-        },
-      ],
+      keys: keys.map((key) => ({
+        x: key.position.x,
+        y: key.position.y,
+      })),
     };
   }
 }
