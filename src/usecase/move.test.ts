@@ -17,7 +17,7 @@ describe("MoveCommand", () => {
     expect(await event).toBeInstanceOf(PlayerMoved);
   });
 
-  test("player 1 is updated", async () => {
+  test("player 1 is moved", async () => {
     const domainEvent$ = container
       .get<Subject<Event>>(EventBusSymbol)
       .pipe(take(1));
@@ -26,6 +26,7 @@ describe("MoveCommand", () => {
 
     command.execute({ direction: "right" });
 
-    expect(await event).toHaveProperty("id", "1");
+    expect(await event).toHaveProperty("position.x", 376);
+    expect(await event).toHaveProperty("position.y", 260);
   });
 });
