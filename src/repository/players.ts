@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import { Subject } from "rxjs";
 import { Engine, Bodies, Body, Composite } from "matter-js";
 import { Player } from "@/entity";
-import { Event, EventBusSymbol, PlayerUpdated } from "@/event";
+import { Event, EventBusSymbol } from "@/event";
 
 @injectable()
 export class Players {
@@ -20,7 +20,7 @@ export class Players {
     /**
      * Static Player
      */
-    this.player = new Player("1");
+    this.player = Player.create();
     this.playerBody = Bodies.rectangle(
       this.player.position.x - 8,
       this.player.position.y - 8,
@@ -41,7 +41,11 @@ export class Players {
   save(player: Player) {
     this.player = player;
     Body.setPosition(this.playerBody, player.position.add({ x: -8, y: -8 }));
-    this.events.next(new PlayerUpdated(player.id));
+
+    player.domainEvents.forEach((event) => {
+      this.events.next(event);
+    });
+    player.clearEvents();
   }
 
   delete() {}

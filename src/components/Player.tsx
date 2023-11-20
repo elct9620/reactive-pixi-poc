@@ -9,7 +9,7 @@ import {
   useDomainEvent,
   useAssets,
 } from "@/hooks";
-import { PlayerUpdated } from "@/event";
+import { PlayerMoved } from "@/event";
 
 const skeletonAsset = [1, 2, 3, 4].map(
   (i) =>
@@ -46,7 +46,6 @@ export default function Player() {
     }
   }, [keydown, move]);
 
-  const playerUpdatedEvent = useDomainEvent(PlayerUpdated);
   const getPlayer = useQuery(PlayerQuery);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   useEffect(() => {
@@ -56,7 +55,15 @@ export default function Player() {
     };
 
     updatePlayer();
-  }, [playerUpdatedEvent, getPlayer]);
+  }, [getPlayer]);
+
+
+  const playerMovedEvent = useDomainEvent(PlayerMoved) as PlayerMoved;
+  useEffect(() => {
+    if(playerMovedEvent) {
+      setPosition({ x: playerMovedEvent.position.x, y: playerMovedEvent.position.y });
+    }
+  }, [playerMovedEvent]);
 
   const { current: assetsUrl } = useRef(skeletonAsset);
   const assets = useAssets(assetsUrl);

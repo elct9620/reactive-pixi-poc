@@ -8,9 +8,16 @@ export abstract class Event {
   }
 }
 
-export class PlayerUpdated extends Event {
-  public readonly type = "PlayerUpdated";
+export class PlayerMoved extends Event {
+  public readonly type = "PlayerMoved";
+  public readonly position: { x: number; y: number };
+
+  constructor(id: string, position: { x: number; y: number }) {
+    super(id);
+    this.position = position;
+  }
 }
+
 export class KeyUpdated extends Event {
   public readonly type = "KeyUpdated";
   public readonly position: { x: number; y: number };

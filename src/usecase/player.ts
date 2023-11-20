@@ -8,7 +8,6 @@ export type PlayerQueryInput = {
   id: string;
 };
 export type PlayerQueryOutput = {
-  health: number;
   x: number;
   y: number;
 };
@@ -24,12 +23,12 @@ export class PlayerQuery implements Query<PlayerQueryInput, PlayerQueryOutput> {
   async execute({ id }: PlayerQueryInput): Promise<PlayerQueryOutput> {
     const player = this._players.find(id);
     if (!player) {
-      return { health: 0, x: 0, y: 0 };
+      return { x: 0, y: 0 };
     }
 
-    const { health, position } = player;
+    const { position } = player;
     const { x, y } = position;
 
-    return { health, x, y };
+    return { x, y };
   }
 }

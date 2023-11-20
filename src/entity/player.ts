@@ -1,13 +1,14 @@
+import { AggregateRoot } from "./aggregate";
 import { Position } from "./position";
+import { Event, PlayerMoved } from "@/event";
+import { v4 as uuidv4 } from "uuid";
 
-export class Player {
-  public readonly id: string;
+export class Player extends AggregateRoot<string, Event> {
   private _speed: number = 16;
   private _position: Position = new Position(344, 260);
-  private _health: number = 100;
 
-  constructor(id: string) {
-    this.id = id;
+  public static create() {
+    return new this("1");
   }
 
   public get position() {
@@ -18,15 +19,12 @@ export class Player {
     return this._speed;
   }
 
-  public get health() {
-    return this._health;
-  }
-
-  public damage(amount: number) {
-    this._health -= amount;
-  }
-
   public set position(position: Position) {
-    this._position = position;
+    this.apply(new PlayerMoved(uuidv4(), position));
+  }
+
+  protected onPlayerMoved(event: PlayerMoved) {
+    const { position } = event;
+    this._position = new Position(position.x, position.y);
   }
 }

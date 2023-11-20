@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import container from "@/container";
 import { MoveCommand } from "./move";
-import { Event, EventBusSymbol, PlayerUpdated } from "@/event";
+import { Event, EventBusSymbol, PlayerMoved } from "@/event";
 import { Subject, lastValueFrom, take } from "rxjs";
 
 describe("MoveCommand", () => {
@@ -14,7 +14,7 @@ describe("MoveCommand", () => {
 
     command.execute({ direction: "right" });
 
-    expect(await event).toBeInstanceOf(PlayerUpdated);
+    expect(await event).toBeInstanceOf(PlayerMoved);
   });
 
   test("player 1 is updated", async () => {
