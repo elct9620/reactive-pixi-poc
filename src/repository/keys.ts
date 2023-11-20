@@ -1,8 +1,7 @@
 import { injectable, inject } from "inversify";
 import { Subject } from "rxjs";
 import { Key } from "@/entity";
-import { Event, EventBusSymbol, KeyUpdated } from "@/event";
-import { v4 as uuidv4 } from "uuid";
+import { Event, EventBusSymbol } from "@/event";
 import { Engine, Body, Bodies, Composite } from "matter-js";
 
 const keys: Key[] = [];
@@ -47,7 +46,10 @@ export class Keys {
     bodies.push(body);
     Composite.add(this.physEngine.world, body);
 
-    this.events.next(new KeyUpdated(uuidv4()));
+    key.domainEvents.forEach((event) => {
+      this.events.next(event);
+    });
+    key.clearEvents();
   }
 
   delete(id: string) {

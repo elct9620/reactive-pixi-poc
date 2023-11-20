@@ -8,7 +8,6 @@ import {
   ListKeyProjection,
 } from "./repository";
 import { Key, Position } from "@/entity";
-import { v4 as uuidv4 } from "uuid";
 
 const xStart = 344;
 const yStart = 260;
@@ -35,7 +34,7 @@ export class SpawnKeyCommand implements Command<void, void> {
       this.keys.delete(key.id);
     });
 
-    const key = new Key(uuidv4());
+    const key = Key.create();
 
     const x = xStart + boxSize * Math.floor(Math.random() * xStep);
     const y = yStart + boxSize * Math.floor(Math.random() * yStep);

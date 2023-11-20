@@ -1,18 +1,25 @@
 export const EventBusSymbol = Symbol("EventBus");
-export class Event {
+export abstract class Event {
   public readonly id: string;
+  public abstract readonly type: string;
 
   constructor(id: string) {
     this.id = id;
   }
-
-  get type() {
-    return this.constructor.name;
-  }
 }
 
-export class PlayerUpdated extends Event {}
-export class KeyUpdated extends Event {}
+export class PlayerUpdated extends Event {
+  public readonly type = "PlayerUpdated";
+}
+export class KeyUpdated extends Event {
+  public readonly type = "KeyUpdated";
+  public readonly position: { x: number; y: number };
+
+  constructor(id: string, position: { x: number; y: number }) {
+    super(id);
+    this.position = position;
+  }
+}
 
 type CollisionEntity = {
   type: string;
@@ -20,6 +27,7 @@ type CollisionEntity = {
 };
 
 export class CollisionStart extends Event {
+  public readonly type = "CollisionStart";
   public readonly concats: CollisionEntity[];
   public readonly pair: CollisionEntity[];
 
